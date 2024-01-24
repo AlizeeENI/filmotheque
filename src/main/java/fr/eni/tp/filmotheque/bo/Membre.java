@@ -1,54 +1,63 @@
 package fr.eni.tp.filmotheque.bo;
 
 public class Membre extends Personne {
+	/**
+	 * Numéro de sérialisation
+	 */
+	private static final long serialVersionUID = 1L;
+	private String pseudo;
+	private String motDePasse;
+	private boolean admin;
 
-    private String pseudo;
-    private String motDePasse;
-    private boolean admin;
+	public Membre() {
+	}
 
-    public Membre(String nom, String prenom, String pseudo, String motDePasse, boolean admin) {
-        this(0, nom, prenom, pseudo, motDePasse, admin);
-    }
+	public Membre(String nom, String prenom, String pseudo, String motDePasse) {
+		super(nom, prenom);
+		this.pseudo = pseudo;
+		this.motDePasse = motDePasse;
+	}
 
-    public Membre(long id, String nom, String prenom, String pseudo, String motDePasse) {
-       this(id, nom, prenom, pseudo, motDePasse, false);
-    }
+	public Membre(long id, String nom, String prenom, String pseudo, String motDePasse) {
+		super(id, nom, prenom);
+		this.pseudo = pseudo;
+		this.motDePasse = motDePasse;
+	}
 
-    public Membre(long id, String nom, String prenom, String pseudo, String motDePasse, boolean admin) {
-        super(id, nom, prenom);
-        this.pseudo = pseudo;
-        this.motDePasse = motDePasse;
-        this.admin = admin;
-    }
+	public String getPseudo() {
+		return pseudo;
+	}
 
-    public String getPseudo() {
-        return pseudo;
-    }
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
+	public String getMotDePasse() {
+		return motDePasse;
+	}
 
-    public String getMotDePasse() {
-        return motDePasse;
-    }
+	public void setMotDePasse(String motDePasse) {
+		this.motDePasse = motDePasse;
+	}
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
-    }
+	public boolean isAdmin() {
+		return admin;
+	}
 
-    public boolean isAdmin() {
-        return admin;
-    }
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString());
+		builder.append(" - Membre (pseudo=");
+		builder.append(pseudo);
+		builder.append(", admin=");
+		builder.append(admin);
+		builder.append(") ");
+		return builder.toString();
+	}
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append(" Membre (pseudo =").append(pseudo).append(", admin=").append(admin).append(") ");
-        return sb.toString();
-    }
 }

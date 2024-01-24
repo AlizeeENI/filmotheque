@@ -4,53 +4,72 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Genre implements Serializable {
+	/**
+	 * Numéro de sérialisation
+	 */
+	private static final long serialVersionUID = 1L;
+	//Attributs
+	private long id;
+	private String titre;
 
-    private long id;
-    private String titre;
+	//Default Constructor
+	public Genre() {
+	}
 
-    public Genre() {}
+	//Constructeurs avec paramètres
+	public Genre(String titre) {
+		this.titre = titre;
+	}
 
-    public Genre(String titre) {
-        this.titre = titre;
-    }
+	public Genre(long id, String titre) {
+		this.id = id;
+		this.titre = titre;
+	}
+	
+	//Getter + Setter
+	public long getId() {
+		return id;
+	}
 
-    public Genre(long id, String titre) {
-        this.id = id;
-        this.titre = titre;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public String getTitre() {
+		return titre;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
 
-    public String getTitre() {
-        return titre;
-    }
+	//Equals et hashCode pour comparer 2 instances de la classe selon leur 'id'
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Genre other = (Genre) obj;
+		return id == other.id;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Genre genre = (Genre) object;
-        return id == genre.id;
-    }
+	//Auto-génération du toString pour uniformiser les traces
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(titre);
+		builder.append(" (");
+		builder.append(id);
+		builder.append(")");
+		return builder.toString();
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder().append(titre).append(" (").append(id).append(")");
-        return sb.toString();
-    }
 }

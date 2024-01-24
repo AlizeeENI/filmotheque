@@ -1,0 +1,35 @@
+<form xmlns:th="http://www.thymeleaf.org"
+	data-th-fragment="frag-film-form(action)"  data-th-action="@{${action}}" method="post">
+	<h1>Détail du film</h1>
+	<ul class="flex-outer"> 
+		<li><label for="inputGenre">Genre : </label> <input type="text"
+			id="inputGenre"  data-th-disabled="${#strings.isEmpty(action)}" data-th-value="${film.genre.titre}" /></li>
+		<li><label for="inputYear">Année : </label> <input type="text"
+			id="inputYear"  data-th-disabled="${#strings.isEmpty(action)}"  data-th-value="${film.annee}" /></li>
+		<li><label for="inputTitle">Titre : </label> <input type="text"
+			id="inputTitle"  data-th-disabled="${#strings.isEmpty(action)}"  data-th-value="${film.titre}" /></li>
+		<li><label for="inputDirector">Réalisateur : </label> <input
+			type="text" id="inputDirector"  data-th-disabled="${#strings.isEmpty(action)}" 
+			data-th-value="${film.realisateur.prenom} + ' ' + ${film.realisateur.nom}" />
+		</li>
+		<li><label for="inputDuration">Durée : </label> <input
+			type="number" id="inputDuration"  data-th-disabled="${#strings.isEmpty(action)}" 
+			data-th-value="${film.duree}" /></li>
+		<li data-th-if="${not #lists.isEmpty(film.acteurs)}"><label
+			for="selectActors">Acteur(s) : </label> <select id="selectActors"
+			disabled multiple="multiple">
+				<option data-th-each="item : ${film.acteurs}"
+					data-th-text="'- ' + ${item.prenom} + ' ' + ${item.nom}"></option>
+		</select></li>
+		<li><label for="taSynopsis">Synopsis : </label> <textarea
+				id="taSynopsis"  data-th-disabled="${#strings.isEmpty(action)}"  data-th-text=" ${film.synopsis}" rows="3">
+					</textarea></li>
+		<li data-th-if="${#strings.isEmpty(action) && not #lists.isEmpty(film.avis)}">
+		<label>Commentaire(s)</label>
+		<ul>
+			<li data-th-each="avis : ${film.avis}"
+				data-th-text="${avis.commentaire + '['+avis.note+'] - ('+avis.membre.prenom+')'}">
+			</li>
+		</ul>
+		</ul>
+</form>

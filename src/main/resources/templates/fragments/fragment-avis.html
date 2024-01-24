@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<li xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-entete">
+    <label>Commentaire(s) : </label>
+    <ul>
+        <li data-th-each="item : ${film.avis}"
+            data-th-text="${item.commentaire + '[' +item.note+']' - ('+item.membre.personne')}"
+    </ul>
