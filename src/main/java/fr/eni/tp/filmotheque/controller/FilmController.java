@@ -2,10 +2,13 @@ package fr.eni.tp.filmotheque.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -13,11 +16,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import fr.eni.tp.filmotheque.bll.FilmService;
 import fr.eni.tp.filmotheque.bo.Film;
 import fr.eni.tp.filmotheque.bo.Genre;
+import fr.eni.tp.filmotheque.bo.Membre;
+import fr.eni.tp.filmotheque.bo.Participant;
 
 @Controller
 @RequestMapping("/films")
 // Injection de la liste des attributs en session
-@SessionAttributes({ "genresEnSession", "membreEnSession" })
+@SessionAttributes({ "genresEnSession", "membreEnSession", "participantsEnSession" })
 public class FilmController {
 
 	// Dépendance
@@ -65,9 +70,48 @@ public class FilmController {
 		return filmService.consulterGenres();
 	}
 
+	/**
+	* - Cette méthode va transmettre l'instance de l'objet Film pour le formulaire
+	*/
 	@GetMapping("/creer")
-	public String creerFilm() {
-		return "view-film-form";
+	public String creerFilm(Model model, @ModelAttribute("membreEnSession") Membre membreEnSession) {
+		if (membreEnSession != null && membreEnSession.getId() >= 1 && membreEnSession.isAdmin()) {
+		// Il y a un membre en session et c'est un administrateur
+		// Ajout de l'instance dans le modèle
+			model.addAttribute("film", new Film());
+			return "view-film-form";
+		} else {
+			// redirection vers la page des films
+			return "redirect:/films";
+		}
 	}
+
+	// Création d'un nouveau film
+	@PostMapping("/creer")
+	public String creerFilm(@Valid @ModelAttribute("film") Film film, BindingResult bindingResult,
+							@ModelAttribute("membreEnSession")Membre membreEnSession) {
+		if (bindingResult.hasErrors()) {
+			return "view-film-form";
+		} else {
+			if (membreEnSession != null && membreEnSession.getId() > 1 && membreEnSession.isAdmin()) {
+				// Il y a un membre en session et c'est un administrateur
+				System.out.println(film);
+				filmService.creerFilm(film);
+				return "redirect:/films";
+			} else {
+				System.out.println("Aucun membre en session");
+				return "redirect:/films";
+			}
+		}
+	}
+
+	// Injection en session des listes représentant les participants
+	@ModelAttribute("participantsEnSession")
+	public List<Participant> chargerParticipants() {
+		System.out.println("Chargement en Session - PARTICIPANTS");
+		return filmService.consulterParticipants();
+	}
+
+	
 
 }

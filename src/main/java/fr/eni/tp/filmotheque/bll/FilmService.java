@@ -21,10 +21,10 @@ public interface FilmService {
 	Participant consulterParticipantParId(long id);
 
 	void creerFilm(Film film);
-
-	List<Avis> consulterAvis(long idFilm);
-
-	void publierAvis(Avis avis, long idFilm);
-
+	
 	String consulterTitreFilm(long id);
+	
+	void publierAvis(Avis avis, long idFilm);
+	
+	List<Avis> consulterAvis(long idFilm);
 }
