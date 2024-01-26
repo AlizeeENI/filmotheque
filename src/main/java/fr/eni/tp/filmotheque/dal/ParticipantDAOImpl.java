@@ -34,7 +34,7 @@ public class ParticipantDAOImpl implements ParticipantDAO{
     }
 
     @Override
-    public Object createActeur(long idParticipant, long idFilm) {
+    public List<Participant> createActeur(long idParticipant, long idFilm) {
        return null;
     }
 }
